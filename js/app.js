@@ -16,6 +16,13 @@ function cargarEventListener(){
     //elimina cursos del carrito
     carrito.addEventListener('click', eliminarCurso);
 
+    //mostrar localStorage
+    document.addEventListener('DOMContentLoaded', ()=>{
+        carritoCompra = JSON.parse(localStorage.getItem('carrito')) ||[]; //x si el usuario no agrega nada al carrito marca null -> []
+    
+        carritoHTML(); // llamamos p/qe imprima localStorage
+    })
+
     //vaciar Carrito
     vaciarCarritoBtn.addEventListener('click', ()=>{
         carritoCompra=[] //reset carrito
@@ -101,7 +108,14 @@ function carritoHTML(){
 //agrega el HTML del carrito en el tbody
     contenedorCarrito.appendChild(row);
     })
+
+    //sincronizar con STORAGE - agregar carrito (esta func se ejecuta cdo agrego o elimino elem al carrito x eso es bueno ACA llamar la func)
+    sincronizarStorage();
 };
+
+function sincronizarStorage(){
+    localStorage.setItem('carrito', JSON.stringify(carritoCompra));//key='carrito?, value carrito compra con string
+}
 
 //limpiar carrito xq appendChild no elimina art y se repite elimina los cursos del tbody
 function limpiarHTML(){
